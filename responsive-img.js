@@ -4,6 +4,9 @@
 // 
 // Copyright 2013-2014 Koen Vendrik, http://kvendrik.com
 // Licensed under the MIT license
+
+// special version for simpler HTML
+// attention
 */
 
 	function makeImagesResponsive(){
@@ -36,7 +39,7 @@
 
 		////////CHECK IF DISPLAY IS RETINA////////
 
-		var retina = window.devicePixelRatio ? window.devicePixelRatio >= 1.2 ? 1 : 0 : 0;
+		// var retina = window.devicePixelRatio ? window.devicePixelRatio >= 1.2 ? 1 : 0 : 0;
 
 		////////LOOP ALL IMAGES////////
 
@@ -47,31 +50,60 @@
 
 				//set attr names
 
-				var srcAttr = ( retina && hasAttr(image, 'data-src2x') ) ? 'data-src2x' : 'data-src';
-				var baseAttr = ( retina && hasAttr(image, 'data-src-base2x') ) ? 'data-src-base2x' : 'data-src-base';
-
+				//var srcAttr = ( retina && hasAttr(image, 'data-src2x') ) ? 'data-src2x' : 'data-src';
+				var srcAttr = (hasAttr(image, 'data-responsive') ) ? 'data-responsive' : '';
+				
+				//var baseAttr = ( retina && hasAttr(image, 'data-src-base2x') ) ? 'data-src-base2x' : 'data-src-base';
+				
+				
+				
 				//check image attributes
 
 				if( !hasAttr(image, srcAttr) ){
 					continue;
 				}
 
-				var basePath = hasAttr(image, baseAttr) ? image.getAttribute(baseAttr) : '';
-
+				// var basePath = hasAttr(image, baseAttr) ? image.getAttribute(baseAttr) : '';
+				var basePath = image.src;
+				var basePathOnly = image.src.substring(0, image.src.lastIndexOf('/')+1);
+				var baseFile = image.src.substring(image.src.lastIndexOf('/')+1);
+				var fileArray = baseFile.split('.');
+				
+				
+				//check window size and return appropriate file
+				var fileSuffix = '';
+				var imageWidth = '';
+				if (viewport <= 576){
+					filesuffix = '-smallest';
+					imageWidth = 330;
+				} else if (viewport <= 768){
+					filesuffix = '-small';
+					imageWidth = 450;
+				} else if (viewport <= 992){
+					filesuffix = '-medium';
+					imageWidth = 610;
+				}else{
+					filesuffix = '-big';
+					imageWidth = 730;
+				}
+				
+				var newSource = basePathOnly + fileArray[0] + filesuffix + '.' + fileArray[1];
+				image.setAttribute('src', newSource);
+				image.setAttribute('with', imageWidth);
 
 				//get attributes
 
-				var queries = image.getAttribute(srcAttr);
+				//var queries = image.getAttribute(srcAttr);
 
 
 
 				//split defined query list
 
-					var queries_array = queries.split(',');
+				//	var queries_array = queries.split(',');
 
 				//loop queries
 
-				for(var j = 0; j < queries_array.length; j++){
+			/*	for(var j = 0; j < queries_array.length; j++){
 
 					//split each individual query
 					var query = queries_array[j].replace(':','||').split('||');
@@ -147,7 +179,7 @@
 						break;
 					}
 
-				}
+				} */
 
 
 		}
