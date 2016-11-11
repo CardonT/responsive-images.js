@@ -68,6 +68,9 @@
 				var basePathOnly = image.src.substring(0, image.src.lastIndexOf('/')+1);
 				var baseFile = image.src.substring(image.src.lastIndexOf('/')+1);
 				var fileArray = baseFile.split('.');
+				var fileName = baseFile.substring(0, baseFile.lastIndexOf('.'));
+				var fileType = baseFile.substring(baseFile.lastIndexOf('.'));
+				fileName = fileName.substring(0, ((fileName.indexOf('-')+1) ? fileName.indexOf('-') : fileName.length));
 				
 				
 				//check window size and return appropriate file
@@ -87,7 +90,7 @@
 					imageWidth = 730;
 				}
 				
-				var newSource = basePathOnly + fileArray[0] + filesuffix + '.' + fileArray[1];
+				var newSource = basePathOnly + fileName + filesuffix + fileType;
 				image.setAttribute('src', newSource);
 				image.setAttribute('with', imageWidth);
 
