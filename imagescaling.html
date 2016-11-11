@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<title>Meine erste Webseite</title>
+		<meta name="author" content="Martin Tegtmeyer" />
+		<meta charset="utf-8" />
+		<script src="responsive-img.js"></script>
+	</head>
+	<body>
+	<img src="xyz.png" alt="graues Bild das Standard sagt" id="image" data-responsive="730x433">
+	</body>
+	<!-- <script>
+		var image = document.getElementById('image');
+		var basePath = image.src;
+		var basePathOnly = image.src.substring(0, image.src.lastIndexOf('/')+1);
+		var baseFile = image.src.substring(image.src.lastIndexOf('/')+1);
+		var fileArray = baseFile.split('.');
+		var fileName = fileArray[0];
+		fileName = fileName.substring(0, ((fileName.indexOf('-')+1) ? fileName.indexOf('-')+1 : fileName.length));
+		alert(fileName);
+	</script>-->
+</html>
