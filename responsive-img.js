@@ -77,20 +77,20 @@
 				var fileSuffix = '';
 				var imageWidth = '';
 				if (viewport <= 576){
-					filesuffix = '-smallest';
+					fileSuffix = '-smallest';
 					imageWidth = 330;
 				} else if (viewport <= 768){
-					filesuffix = '-small';
+					fileSuffix = '-small';
 					imageWidth = 450;
 				} else if (viewport <= 992){
-					filesuffix = '-medium';
+					fileSuffix = '-medium';
 					imageWidth = 610;
 				}else{
-					filesuffix = '-big';
+					fileSuffix = '-big';
 					imageWidth = 730;
 				}
 				
-				var newSource = basePathOnly + fileName + filesuffix + fileType;
+				var newSource = basePathOnly + fileName + fileSuffix + fileType;
 				image.setAttribute('src', newSource);
 				image.setAttribute('with', imageWidth);
 
