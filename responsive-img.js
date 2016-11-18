@@ -51,7 +51,7 @@
 				//set attr names
 
 				//var srcAttr = ( retina && hasAttr(image, 'data-src2x') ) ? 'data-src2x' : 'data-src';
-				var srcAttr = (hasAttr(image, 'data-responsive') ) ? 'data-responsive' : '';
+				var srcAttr = 'data-responsive';
 				
 				//var baseAttr = ( retina && hasAttr(image, 'data-src-base2x') ) ? 'data-src-base2x' : 'data-src-base';
 				
@@ -62,127 +62,47 @@
 				if( !hasAttr(image, srcAttr) ){
 					continue;
 				}
-
-				// var basePath = hasAttr(image, baseAttr) ? image.getAttribute(baseAttr) : '';
-				var basePath = image.src;
-				var basePathOnly = image.src.substring(0, image.src.lastIndexOf('/')+1);
-				var baseFile = image.src.substring(image.src.lastIndexOf('/')+1);
-				var fileArray = baseFile.split('.');
+                                var srcString = image.getAttribute(srcAttr);
+				var basePathOnly = srcString.substring(0, srcString.lastIndexOf('/')+1);
+				var baseFile = srcString.substring(srcString.lastIndexOf('/')+1);
 				var fileName = baseFile.substring(0, baseFile.lastIndexOf('.'));
 				var fileType = baseFile.substring(baseFile.lastIndexOf('.'));
-				fileName = fileName.substring(0, ((fileName.indexOf('-')+1) ? fileName.indexOf('-') : fileName.length));
+				fileName = fileName.substring(0, ((fileName.lastIndexOf('-')+1) ? fileName.lastIndexOf('-') : fileName.length));
 				
 				
+                                // eventually compute image height
+				var imageHeight = 730;
+                                var setHeight = 0;
+				var heightAttr = 'height-responsive';
+                                if (hasAttr(image, heightAttr)) {
+                                    imageHeight = image.getAttribute(heightAttr); 
+                                    setHeight = 1;
+                                }
+
 				//check window size and return appropriate file
 				var fileSuffix = '';
-				var imageWidth = '';
 				if (viewport <= 576){
-					fileSuffix = '-smallest';
-					imageWidth = 330;
+					fileSuffix = '-298';
+                                        imageHeight = imageHeight * 298 / 730;
 				} else if (viewport <= 768){
-					fileSuffix = '-small';
-					imageWidth = 450;
+					fileSuffix = '-330';
+                                        imageHeight = imageHeight * 330 / 730;
 				} else if (viewport <= 992){
-					fileSuffix = '-medium';
-					imageWidth = 610;
+					fileSuffix = '-450';
+                                        imageHeight = imageHeight * 450 / 730;
+				} else if (viewport <= 1200){
+					fileSuffix = '-610';
+                                        imageHeight = imageHeight * 610 / 730;
 				}else{
-					fileSuffix = '-big';
-					imageWidth = 730;
+					fileSuffix = '-730';
 				}
 				
 				var newSource = basePathOnly + fileName + fileSuffix + fileType;
 				image.setAttribute('src', newSource);
-				image.setAttribute('with', imageWidth);
+                                if (setHeight) {
+				   image.setAttribute('height', parseFloat(imageHeight).toFixed());
+                                }
 
-				//get attributes
-
-				//var queries = image.getAttribute(srcAttr);
-
-
-
-				//split defined query list
-
-				//	var queries_array = queries.split(',');
-
-				//loop queries
-
-			/*	for(var j = 0; j < queries_array.length; j++){
-
-					//split each individual query
-					var query = queries_array[j].replace(':','||').split('||');
-
-					//get condition and response
-					var condition = query[0];
-					var response = query[1];
-
-
-					//set empty variables
-					var conditionpx;
-					var bool;
-
-
-					//check if condition is below
-					if(condition.indexOf('<') !== -1){
-
-						conditionpx = condition.split('<');
-
-						if(queries_array[(j -1)]){
-
-							var prev_query = queries_array[(j - 1)].split(/:(.+)/);
-							var prev_cond = prev_query[0].split('<');
-
-							bool =  (viewport <= conditionpx[1] && viewport > prev_cond[1]);
-
-						} else {
-
-							bool =  (viewport <= conditionpx[1]);
-
-						}
-
-					} else {
-
-						conditionpx = condition.split('>');
-
-						if(queries_array[(j +1)]){
-
-							var next_query = queries_array[(j +1)].split(/:(.+)/);
-							var next_cond = next_query[0].split('>');
-							
-							bool = (viewport >= conditionpx[1] && viewport < next_cond[1]);
-
-						} else {
-
-							bool = (viewport >= conditionpx[1]);
-
-						}
-
-					}
-
-
-					//check if document.width meets condition
-					if(bool){
-
-						var isCrossDomain = response.indexOf('//') !== -1 ? 1 : 0;
-
-						var new_source;
-						if(isCrossDomain === 1){
-							new_source = response;
-						} else {
-							new_source = basePath + response;
-						}
-
-						if(image.src !== new_source){
-
-							//change img src to basePath + response
-							image.setAttribute('src', new_source);
-
-						}
-
-						//break loop
-						break;
-					}
-
-				} */
 
 
 		}
